@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>README.html</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml;charset=utf-8"/>
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css"  />
+<link rel="stylesheet" type="text/css" media="all" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/styles/github.min.css"  /><meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'><style> body { box-sizing: border-box; max-width: 740px; width: 100%; margin: 40px auto; padding: 0 10px; } </style><script id='MathJax-script' async src='https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'></script><script src='https://cdn.jsdelivr.net/gh/highlightjs/cdn-release/build/highlight.min.js'></script><script>document.addEventListener('DOMContentLoaded', () => { document.body.classList.add('markdown-body'); document.querySelectorAll('pre[lang] > code').forEach((code) => { code.classList.add(code.parentElement.lang); }); document.querySelectorAll('pre > code').forEach((code) => { hljs.highlightBlock(code); }); });</script>
+</head>
+
+<body>
+
+<h1
+id="recursum---an-r-package-for-summarizing-text-data-using-openais-gpt-3">Recursum
+- An R package for summarizing text data using OpenAI’s GPT-3</h1>
+<p>Recursum is an R package that interfaces with the OpenAI API to use
+GPT-3 models to summarize text data. This package provides two main
+functions summarize_text and recursive_summarize to summarize a given
+text or a dataset respectively.</p>
+<h2 id="installation">Installation</h2>
+<p>To install Recursum, you need the devtools package installed on your
+machine. Then, you can use the following code to install the
+package:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(remotes))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;remotes&quot;</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">&quot;mbosley/recursum&quot;</span>)</span></code></pre></div>
+<h2 id="accessing-the-openai-api">Accessing the OpenAI API</h2>
+<p>The simplest way to access the OpenAI API is to use:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.setenv</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">OPENAI_API_KEY =</span> <span class="st">&#39;xxxxxx&#39;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Replace the ‘xxxxxx’ with your OpenAI API key, but be sure not to
+accidentally upload it to GitHub! Please keep in mind that depending on
+the amount of data you’re summarizing and the model you’re using, you
+quickly start to incur costs on your OpenAI account. Please start with a
+small sample of your data.</p>
+<h2 id="summarize_text-function"><code>summarize_text</code>
+function</h2>
+<p>The <code>summarize_text</code> function takes in a text, and returns
+its summary. The function also takes several optional parameters to
+control the summarization process.</p>
+<h3 id="parameters">Parameters</h3>
+<ul>
+<li>text: The text to be summarized.</li>
+<li>prompt: A string used as a prompt for GPT-3 (default: “Please
+summarize the following text::”).</li>
+<li>chunk_prompt: A string used as a prompt for the text chunks to be
+summarized (default: “Integrate the following chunk into the existing
+summary so that they form a new coherent summary.:”).</li>
+<li>model: The name of the GPT-3 model to use (default:
+“text-curie-001”).</li>
+<li>max_chars: The maximum number of characters to be used for
+summarization (default: 2000).</li>
+<li>split: A boolean indicating whether to split speech into chunks of
+max_chars size (default: TRUE).</li>
+<li>split_on_newline: A boolean indicating whether to split on newline
+(default: FALSE).</li>
+<li>gather_chunks: A boolean indicating whether to gather chunks
+together based on max_chars (default: FALSE).</li>
+<li>max_chunks: The maximum number of chunks to be created (default:
+10).</li>
+<li>chunk_summary_strategy: A string indicating the strategy to
+summarize the chunks (default: “separate”).</li>
+<li>output_format: A string indicating the format of the output
+(default: “SUMMARY”).</li>
+<li>verbose: A boolean indicating whether to include update messages or
+not (default: TRUE). ### Return value The summarize_text function
+returns a summary of the input text.</li>
+</ul>
+<h2 id="recursive_summarize-function"><code>recursive_summarize</code>
+function</h2>
+<p>The recursive_summarize function takes in a dataset, and returns the
+dataset with added columns for the summaries at each level of recursion.
+The function also takes several optional parameters to control the
+summarization process.</p>
+<h3 id="parameters-1">Parameters</h3>
+<ul>
+<li>dataset: The dataset to be summarized.</li>
+<li>groups: The variables by which the dataset should be grouped.</li>
+<li>prompts: A set of strings used as prompts for each level of
+recursion.</li>
+<li>level: The number of levels of recursion (default: 1). ### Return
+value The recursive_summarize function returns the input dataset with
+added columns for the summaries at each level of recursion.</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<p>Here are some examples of how you can use the recursum package to
+summarize your text data:</p>
+<h3 id="summarizing-a-single-piece-of-text">Summarizing a single piece
+of text</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>text <span class="ot">&lt;-</span> <span class="st">&quot;This is an example text. This text has multiple sentences, and it&#39;s meant to be summarized. The goal of this example is to show how you can use the `recursum` package to summarize text data.&quot;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>recursum<span class="sc">::</span><span class="fu">summarize_text</span>(text)</span></code></pre></div>
+<p>This will return a summarized version of the input text, which has
+been generated using OpenAI’s GPT-3.</p>
+<h3 id="recursively-summarizing-a-dataset">Recursively summarizing a
+dataset</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load required libraries</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a sample dataset</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>speaker_day_dataset <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">speaker =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;Speaker 1&quot;</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="st">&quot;Speaker 2&quot;</span>, <span class="dv">3</span>)),</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">day =</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">3</span>), <span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">3</span>)),</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">text =</span> <span class="fu">c</span>(<span class="st">&quot;Speaker 1 says something on day 1&quot;</span>, </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Speaker 1 says something else on day 1&quot;</span>, </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Speaker 1 says a third thing on day 1&quot;</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Speaker 2 says something on day 2&quot;</span>, </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Speaker 2 says something else on day 2&quot;</span>, </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;Speaker 2 says a third thing on day 2&quot;</span>)</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the groups and prompts</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>groups <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;speaker&quot;</span>, <span class="st">&quot;day&quot;</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>prompts <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Please summarize the following text for speaker &quot;</span>,</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>             <span class="st">&quot;Please summarize the following text for day &quot;</span>)</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Use the recursive_summarize function to summarize the dataset</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>recursive_summarized_dataset <span class="ot">&lt;-</span> <span class="fu">recursive_summarize</span>(</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  speaker_day_dataset, groups, prompts</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>recursive_summarized_dataset</span></code></pre></div>
+<p>The result will be a new dataset with added columns for the summaries
+at each level of recursion.</p>
+
+</body>
+</html>
