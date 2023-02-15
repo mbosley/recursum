@@ -24,7 +24,7 @@ summarize_text <- function(text,
                            gather_chunks = FALSE,
                            max_chunks = 10,
                            chunk_summary_strategy = c("separate", "summarize", "recursive"),
-                           output_format = "SUMMARY",
+                           output = "SUMMARY",
                            verbose = TRUE) {
 
 
@@ -35,7 +35,7 @@ summarize_text <- function(text,
 
   for (chunk in chunks) {
     prompt <- paste0(
-        prompt, paste0(chunk, "\n\n", output_format, ":\n")
+        prompt, paste0(chunk, "\n\n", output, ":\n")
       )
   }
 
